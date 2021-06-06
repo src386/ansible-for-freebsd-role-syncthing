@@ -1,6 +1,6 @@
 # ![syncthing logo small] Syncthing for FreeBSD
 
-*Ansible role to install Syncthing on FreeBSD*
+*Ansible role to install Syncthing (upstream and auto-upgradeable version) on FreeBSD*
 
 [syncthing logo small]:lib/images/logo-syncthing-small.png
 

@@ -1,0 +1,34 @@
+---
+
+# Installation
+# ============
+
+# Syncthing upstream URL for various architectures (amd64 only right now because I don't have i386/arm64).
+# It does not matter if the URL is outdated because Syncthing will update itself.
+syncthing__upstream_url:
+  'amd64': 'https://github.com/syncthing/syncthing/releases/download/v1.17.0/syncthing-freebsd-amd64-v1.17.0.tar.gz'
+
+# Syncthing installation directory.
+syncthing__install_dir: '/usr/local/bin'
+
+# Syncthing rc.d directory.
+syncthing__service_dir: '/usr/local/etc/rc.d'
+
+# Requirements.
+syncthing__requirements:
+  - gtar
+
+# Service
+# =======
+
+# Syncthing service name.
+syncthing__service: syncthing
+
+# Syncthing owner.
+syncthing__owner: syncthing
+
+# Syncthing group.
+syncthing__group: syncthing
+
+# Syncthing home.
+syncthing__home: "/usr/local/etc/syncthing"
