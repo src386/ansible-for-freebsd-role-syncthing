@@ -1,0 +1,12 @@
+---
+
+- name: Ensure Syncthing is Present
+  package:
+    name: syncthing
+    state: present
+
+- name: Ensure Syncthing Service is Enabled and Started
+  service:
+    name: syncthing
+    enabled: yes
+    state: started
