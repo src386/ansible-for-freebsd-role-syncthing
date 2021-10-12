@@ -1,0 +1,6 @@
+---
+
+- name: restart syncthing
+  service:
+    name: "{{ syncthing__service }}"
+    state: restarted
