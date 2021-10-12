@@ -87,3 +87,6 @@
     name: "{{ syncthing__service }}"
     enabled: yes
     state: started
+
+- name: Flush handlers
+  meta: flush_handlers
