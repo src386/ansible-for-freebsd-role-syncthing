@@ -10,7 +10,7 @@
 
 - name: Ensure requirements are Present.
   package:
-    name: "{{ syncthing__requirements }}"
+    name: "{{ syncthing__requirements }}"
     state: present
 
 - name: Ensure Syncthing group is Present.
@@ -20,7 +20,7 @@
 
 - name: Ensure Syncthing user is Present.
   user:
-    name: "{{ syncthing__owner }}"
+    name: "{{ syncthing__owner }}"
     home: "{{ syncthing__home }}"
     group: "{{ syncthing__group }}"
     shell: "/usr/sbin/nologin"
@@ -37,7 +37,7 @@
       register: syncthing_bin
     - name: Ensure Syncthing Service is Stopped (if file)
       service:
-        name: "{{ syncthing__service }}"
+        name: "{{ syncthing__service }}"
         state: stopped
       when: 
         - syncthing_bin.stat.exists
@@ -53,7 +53,7 @@
 - name: Ensure Syncthing install directory is Present.
   file:
     path: "{{ syncthing__install_dir }}"
-    owner: "{{ syncthing__owner }}"
+    owner: "{{ syncthing__owner }}"
     group: "{{ syncthing__group }}"
     mode: "u=rwx,g=rx,o=xr"
     state: directory
@@ -61,7 +61,7 @@
 
 - name: Ensure Syncthing is Present.
   unarchive:
-    src: "{{ syncthing__upstream_url[ansible_architecture] }}"
+    src: "{{ syncthing__upstream_url[ansible_architecture] }}"
     dest: "{{ syncthing__install_dir }}/"
     owner: "{{ syncthing__owner }}"
     group: "{{ syncthing__group }}"
@@ -77,13 +77,13 @@
 - name: Ensure Syncthing Service is Present.
   template:
     src: "syncthing.rc-d.j2"
-    dest: "{{ syncthing__service_dir }}/syncthing"
+    dest: "{{ syncthing__service_dir }}/syncthing"
     owner: "{{ syncthing__owner }}"
     group: "{{ syncthing__group }}"
     mode: "u=rwx,g=rx,o=xr"
 
 - name: Ensure Syncthing Service is Enabled and Started
   service:
-    name: "{{ syncthing__service }}"
+    name: "{{ syncthing__service }}"
     enabled: yes
     state: started
