@@ -9,7 +9,7 @@ syncthing__upstream_url:
   'amd64': 'https://github.com/syncthing/syncthing/releases/download/v1.18.3/syncthing-freebsd-amd64-v1.18.3.tar.gz'
 
 # Syncthing installation directory.
-syncthing__install_dir: '/usr/local/bin'
+syncthing__install_dir: '/usr/local/bin/syncthing'
 
 # Syncthing rc.d directory.
 syncthing__service_dir: '/usr/local/etc/rc.d'

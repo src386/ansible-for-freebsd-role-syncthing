@@ -36,7 +36,7 @@ load_rc_config $name
 : ${syncthing_user:={{ syncthing__owner }}}
 syncthing_group=${syncthing_group:-${{ syncthing__owner }}}
 
-command=/usr/local/bin/syncthing
+command={{ syncthing__install_dir }}/syncthing
 pidfile=/var/run/syncthing.pid
 syncthing_cmd=serve
 syncthing_flags="${syncthing_home:+--home=${syncthing_home}} ${syncthing_log_file:+--logfile=${syncthing_log_file}}"
