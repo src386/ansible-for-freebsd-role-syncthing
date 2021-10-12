@@ -36,7 +36,6 @@ load_rc_config $name
 : ${syncthing_user:={{ syncthing__owner }}}
 syncthing_group=${syncthing_group:-${{ syncthing__owner }}}
 
-
 command=/usr/local/bin/syncthing
 pidfile=/var/run/syncthing.pid
 syncthing_cmd=serve
