@@ -2,6 +2,10 @@
 
 ## [0.2] - 2021-10-12
 
+### Added
+
+- Handler to restart Syncthing service if necessary
+
 ### Changed
 
 - Update to Syncthing 1.18.3
