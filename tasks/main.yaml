@@ -63,7 +63,7 @@
   unarchive:
     src: "{{ syncthing__upstream_url[ansible_architecture] }}"
     dest: "{{ syncthing__install_dir }}/"
-    owner: "{{ syncthing__owner }}"
+    owner: "{{ syncthing__owner }}"
     group: "{{ syncthing__group }}"
     keep_newer: yes
     remote_src: yes
@@ -78,7 +78,7 @@
   template:
     src: "syncthing.rc-d.j2"
     dest: "{{ syncthing__service_dir }}/syncthing"
-    owner: "{{ syncthing__owner }}"
+    owner: "{{ syncthing__owner }}"
     group: "{{ syncthing__group }}"
     mode: "u=rwx,g=rx,o=xr"
 
