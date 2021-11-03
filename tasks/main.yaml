@@ -8,9 +8,9 @@
     - "{{ ansible_os_family|lower }}_{{ ansible_distribution_major_version }}.yaml"
     - "{{ ansible_os_family|lower }}.yaml"
 
-- name: Ensure requirements are present.
+- name: Ensure requirements are Present.
   package:
-    name: "{{ syncthing__requirements }}"
+    name: "{{ syncthing__requirements }}"
     state: present
 
 - name: Ensure Syncthing group is Present.
@@ -20,17 +20,50 @@
 
 - name: Ensure Syncthing user is Present.
   user:
-    name: "{{ syncthing__owner }}"
+    name: "{{ syncthing__owner }}"
     home: "{{ syncthing__home }}"
     group: "{{ syncthing__group }}"
     shell: "/usr/sbin/nologin"
     state: present
 
+# See https://github.com/src386/ansible-for-freebsd-role-syncthing/issues/1
+# If Syncthing is installed as a binary inside /usr/local/bin, auto-updates won't work.
+# It is required to delete this Syncthing binary, in order to install it in its own directory.
+- name: Ensure old installations of Syncthing are Absent
+  block:
+    - name: Check if Syncthing installation directory is a file or a Directory
+      stat:
+        path: "{{ syncthing__install_dir }}"
+      register: syncthing_bin
+    - name: Ensure Syncthing Service is Stopped (if file)
+      service:
+        name: "{{ syncthing__service }}"
+        state: stopped
+      when: 
+        - syncthing_bin.stat.exists
+        - not syncthing_bin.stat.isdir
+    - name: Ensure Syncthing is Absent (if file)
+      file:
+        path: "{{ syncthing__install_dir }}"
+        state: absent
+      when: 
+        - syncthing_bin.stat.exists
+        - not syncthing_bin.stat.isdir
+
+- name: Ensure Syncthing install directory is Present.
+  file:
+    path: "{{ syncthing__install_dir }}"
+    owner: "{{ syncthing__owner }}"
+    group: "{{ syncthing__group }}"
+    mode: "u=rwx,g=rx,o=xr"
+    state: directory
+    force: true
+
 - name: Ensure Syncthing is Present.
   unarchive:
-    src: "{{ syncthing__upstream_url[ansible_architecture] }}"
+    src: "{{ syncthing__upstream_url[ansible_architecture] }}"
     dest: "{{ syncthing__install_dir }}/"
-    owner: "{{ syncthing__owner }}"
+    owner: "{{ syncthing__owner }}"
     group: "{{ syncthing__group }}"
     keep_newer: yes
     remote_src: yes
@@ -38,17 +71,22 @@
       - "--strip=1"
       - "--wildcards"
       - "*/syncthing"
+  notify:
+    - restart syncthing
 
 - name: Ensure Syncthing Service is Present.
   template:
     src: "syncthing.rc-d.j2"
-    dest: "{{ syncthing__service_dir }}/syncthing"
-    owner: "{{ syncthing__owner }}"
+    dest: "{{ syncthing__service_dir }}/syncthing"
+    owner: "{{ syncthing__owner }}"
     group: "{{ syncthing__group }}"
     mode: "u=rwx,g=rx,o=xr"
 
 - name: Ensure Syncthing Service is Enabled and Started
   service:
-    name: "{{ syncthing__service }}"
+    name: "{{ syncthing__service }}"
     enabled: yes
     state: started
+
+- name: Flush handlers
+  meta: flush_handlers
